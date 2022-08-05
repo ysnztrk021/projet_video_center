@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{ video.title }}
+{% endblock %}
+{% block body %}
+	<article>
+		<h1>{{ video.title }}</h1>
+		<iframe width="800" height="400" src={{ video.getVideoLink }}></iframe>
+		<p>{{ video.description }}</p>
+		<p>Submitted
+			{{ video.createdAt|date }}</p>
+		<p>Last Modification
+			{{ video.updatedAt|date }}</p>
+	</article>
+	{% if app.user and app.user.id == video.user.id %}
+		<a href="{{ path('app_video_edit', {id: video.id}) }}">Edit Video |
+		</a>
+		<a href="#" onclick="event.preventDefault(); confirm('Are you sure ?') &&
+								document.getElementById('js-video-delete-form').submit();">Delete |
+		</a>
+	{% endif %}
+	<a href="{{ path('app_home') }}">Go Back</a>
+	<form id="js-video-delete-form" action="{{ path('app_video_delete', {id: video.id}) }}" method="post" style="display:none;">
+		<input type="hidden" name="_method" value="DELETE">
+	</form>
+
+{% endblock %}
