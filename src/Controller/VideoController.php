@@ -59,8 +59,13 @@ class VideoController extends AbstractController
     /**
      * @Route("/video/{id<[0-9]+>}/edit", name="app_video_edit", methods= {"GET","POST"})
      */
-    public function edit(Request $request, Video $video, EntityManagerInterface $em): Response
+    public function edit(Request $request, Video $video, EntityManagerInterface $em, User $user): Response
     {
+        if(!$this->getUser() || $video->getUser()->getId() != $user->getId()){
+            $this->addFlash('error', 'You have to be the owner of this video to edit it');
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(VideoType::class, $video);
         $form->handleRequest($request);
 
@@ -78,8 +83,12 @@ class VideoController extends AbstractController
     /**
      * @Route("/video/{id<[0-9]+>}/delete", name="app_video_delete")
      */
-    public function delete(Video $video, EntityManagerInterface $em): Response
+    public function delete(Video $video, EntityManagerInterface $em, User $user): Response
     {
+        if(!$this->getUser() || $video->getUser()->getId() != $user->getId()){
+            $this->addFlash('error', 'You have to be the owner of this video to delete it');
+            return $this->redirectToRoute('app_home');
+        }
         $em->remove($video);
         $em->flush();
         $this->addFlash('info', 'Video successfully deleted !');

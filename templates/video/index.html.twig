@@ -12,8 +12,8 @@
 						<a href="{{ path('app_video_show', {id: video.id}) }}">
 							<h1>{{ video.title|u.truncate(30,'...',false) }}</h1>
 						</a>
-						<p>{{ video.description|u.truncate(25,'...',false) }}</p>
 						<iframe class="video-center" src={{ video.getVideoLink }}></iframe>
+						<h5>{{ video.description|u.truncate(25,'...',false) }}</h5>
 						<p>Submitted
 							{{ video.createdAt|ago }}
 							<br>
@@ -26,8 +26,8 @@
 						<a href="{{ path('app_video_show', {id: video.id}) }}">
 							<h1>{{ video.title|u.truncate(30,'...',false) }}</h1>
 						</a>
-						<p>{{ video.description|u.truncate(25,'...',false) }}</p>
 						<iframe class="video-center" src={{ video.getVideoLink }}></iframe>
+						<h5>{{ video.description|u.truncate(25,'...',false) }}</h5>
 						<p>Submitted
 							{{ video.createdAt|ago }}
 							<br>
